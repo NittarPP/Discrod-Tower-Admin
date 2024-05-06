@@ -1,3 +1,66 @@
-Srroy But Is Beta Script No add to github
-github want use Base64 format to do
-and is so hard to do
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+ 
+-- List of known exploits
+local exploits = {
+    "Codex",
+    "Synapse X",
+    "Sentinel",
+    "Protosmasher",
+    "SirHurt",
+    "Calamari",
+    "RC-M",
+    "Arceus",
+    "Delta",
+    "Trigon",
+    "Fluxus",
+    "Fluxus Lite",
+    "Arceus X Neo",
+    "Wave",
+    "Aurora X",
+    "Solara Exploit", --can jump pc make temp
+    "Solara", --can jump pc make temp
+    "Solara V2 External",
+    "Solara V2",
+    "Hydrogen",
+    "Ro-exe",
+-- Add more exploits here if needed
+}
+ 
+-- Function to check if a player's client is running a known exploit
+local function checkExploits(player)
+    local clientName = player:WaitForChild("PlayerGui"):WaitForChild("ClientName").Text
+ 
+    for _, exploit in pairs(exploits) do
+        if string.lower(clientName):find(exploit) then
+            return true
+        end
+    end
+ 
+    return false
+end
+ 
+-- Function to kick a player from the game
+local function kickPlayer(player)
+    local message = "You have been kicked for using an exploit."
+ 
+    player:Kick(message)
+end
+ 
+-- Check for exploits when a player joins the game
+Players.PlayerAdded:Connect(function(player)
+    if checkExploits(player) then
+        kickPlayer(player)
+    end
+end)
+
+-- Check for exploits periodically for all players in the game
+while true do
+    for _, player in pairs(Players:GetPlayers()) do
+        if checkExploits(player) then
+            kickPlayer(player)
+        end
+    end
+ 
+    wait(1)
+end
